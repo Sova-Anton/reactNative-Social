@@ -1,0 +1,82 @@
+import { StyleSheet } from "react-native";
+
+export const styles = StyleSheet.create({
+  form: {
+    paddingTop: 32,
+    paddingBottom: 144,
+    paddingHorizontal: 16,
+    backgroundColor: "#FFFFFF",
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+  },
+  avtarContainer: {
+    position: "absolute",
+    top: -60,
+    left: "50%",
+    transform: [{ translateX: -45 }],
+    width: 120,
+    height: 120,
+    backgroundColor: "#F6F6F6",
+    borderRadius: 16,
+  },
+  btnAddAvatar: {
+    position: "absolute",
+    right: -12,
+    bottom: 14,
+    width: 25,
+    height: 25,
+  },
+  imgBtnAdd: {
+    flex: 1,
+  },
+  title: {
+    textAlign: "center",
+    fontFamily: "Roboto-Medium",
+    fontSize: 30,
+    lineHeight: 35,
+    letterSpacing: 1,
+    color: "#212121",
+    marginBottom: 33,
+  },
+  input: {
+    height: 50,
+    marginTop: 16,
+    borderWidth: 1,
+    borderColor: "#E8E8E8",
+    borderRadius: 8,
+    padding: 16,
+    backgroundColor: "#F6F6F6",
+    fontFamily: "Roboto-Regular",
+    fontSize: 16,
+    lineHeight: 19,
+  },
+  ifFocused: {
+    borderColor: "#FF6C00",
+    backgroundColor: "#FFFFFF",
+  },
+  btnPassword: {
+    position: "absolute",
+    top: 16,
+    right: 16,
+  },
+  btn: {
+    paddingVertical: 16,
+    marginTop: 43,
+    height: 51,
+    backgroundColor: "#FF6C00",
+    borderRadius: 100,
+  },
+  btnTitle: {
+    textAlign: "center",
+    color: "#FFFFFF",
+    fontSize: 16,
+    lineHeight: 19,
+    fontFamily: "Roboto-Regular",
+  },
+  link: {
+    marginTop: 16,
+    color: "#1B4371",
+    textAlign: "center",
+    fontFamily: "Roboto-Regular",
+  },
+});
