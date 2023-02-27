@@ -39,7 +39,7 @@ export default function LoginScreen() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={-20}
+      keyboardVerticalOffset={-40}
     >
       <View style={styles.form}>
         <Text style={{ ...styles.title }}>Login</Text>

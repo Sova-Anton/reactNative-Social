@@ -41,7 +41,7 @@ export default function RegistrationScreen() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={-90}
+      keyboardVerticalOffset={-110}
     >
       <View style={{ ...styles.form, paddingTop: 92, paddingBottom: 78 }}>
         <View style={styles.avtarContainer}>
