@@ -1,6 +1,15 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+  },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "flex-end",
+  },
   form: {
     paddingTop: 32,
     paddingBottom: 144,
@@ -9,7 +18,7 @@ export const styles = StyleSheet.create({
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
   },
-  avtarContainer: {
+  avatarContainer: {
     position: "absolute",
     top: -60,
     left: "50%",
@@ -21,13 +30,10 @@ export const styles = StyleSheet.create({
   },
   btnAddAvatar: {
     position: "absolute",
-    right: -12,
+    right: -15,
     bottom: 14,
-    width: 25,
-    height: 25,
-  },
-  imgBtnAdd: {
-    flex: 1,
+    width: 30,
+    height: 30,
   },
   title: {
     textAlign: "center",
@@ -73,10 +79,18 @@ export const styles = StyleSheet.create({
     lineHeight: 19,
     fontFamily: "Roboto-Regular",
   },
-  link: {
+  navigationContainer: {
     marginTop: 16,
+    flexDirection: "row",
+    alignSelf: "center",
+  },
+  navigateText: {
     color: "#1B4371",
-    textAlign: "center",
+    fontFamily: "Roboto-Regular",
+  },
+  redirectText: {
+    paddingLeft: 3,
+    color: "#1B4371",
     fontFamily: "Roboto-Regular",
   },
 });
