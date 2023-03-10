@@ -6,7 +6,7 @@ import { EvilIcons } from "@expo/vector-icons";
 export default function Post({ item, navigation }) {
   return (
     <View style={styles.postContainer}>
-      <Image style={styles.postImage} source={{ uri: `${item.url}` }} />
+      <Image style={styles.postImage} source={{ uri: `${item.photo}` }} />
       <Text style={styles.imageTitle}>{item.title}</Text>
       <View style={styles.descriptionContainer}>
         <View style={styles.descriptionWrap}>
@@ -22,13 +22,14 @@ export default function Post({ item, navigation }) {
           </TouchableOpacity>
           <Text style={styles.textComments}>{item.comments}</Text>
         </View>
-        <View style={styles.descriptionWrap}>
-          <EvilIcons name="location" size={24} color="#BDBDBD" />
+        <View>
           <TouchableOpacity
-            onPress={() => navigation.navigate("Map")}
+            style={styles.descriptionWrap}
+            onPress={() => navigation.navigate("Map", { ...item.location })}
             activeOpacity={0.5}
           >
-            <Text style={styles.textLocation}>{item.location}</Text>
+            <EvilIcons name="location" size={24} color="#BDBDBD" />
+            <Text style={styles.textLocation}>{item.place}</Text>
           </TouchableOpacity>
         </View>
       </View>

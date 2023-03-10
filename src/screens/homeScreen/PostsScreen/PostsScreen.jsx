@@ -1,9 +1,20 @@
+import { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, Image, FlatList } from "react-native";
 import { styles } from "./PostsScreenStyled";
 import Post from "../../../components/Post";
 import { listPosts } from "../../../helpers/listPosts";
 
-export default function PostsScreen({ navigation }) {
+export default function PostsScreen({ navigation, route }) {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    if (route.params) {
+      setPosts((prevState) => [route.params, ...prevState]);
+    }
+  }, [route.params]);
+  console.log("posts", posts);
+
+  console.log("route.params", route.params);
   return (
     <View style={styles.container}>
       <View style={styles.containerUserProfile}>
@@ -22,8 +33,8 @@ export default function PostsScreen({ navigation }) {
 
       <View>
         <FlatList
-          data={listPosts}
-          keyExtractor={(item) => item.id}
+          data={posts}
+          keyExtractor={(item) => item.title}
           renderItem={({ item }) => (
             <Post item={item} navigation={navigation} />
           )}

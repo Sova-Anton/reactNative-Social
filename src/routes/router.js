@@ -15,7 +15,7 @@ import { Feather } from "@expo/vector-icons";
 const AuthStack = createStackNavigator();
 const HomeStack = createStackNavigator();
 
-const MainTab = createBottomTabNavigator();
+// const MainTab = createBottomTabNavigator();
 
 export const useRoute = (isAuth) => {
   if (!isAuth) {

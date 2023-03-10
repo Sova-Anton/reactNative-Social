@@ -25,7 +25,6 @@ export const styles = StyleSheet.create({
   },
   descriptionWrap: {
     flexDirection: "row",
-    alignItems: "center",
   },
   textComments: {
     marginLeft: 4,
@@ -36,6 +35,7 @@ export const styles = StyleSheet.create({
   },
   textLocation: {
     fontFamily: "Roboto-Regular",
+    textDecorationLine: "underline",
     fontSize: 16,
     lineHeight: 19,
     color: "#212121",
