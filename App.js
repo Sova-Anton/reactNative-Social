@@ -1,9 +1,10 @@
-import { NavigationContainer } from "@react-navigation/native";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback } from "react";
-
+import { Provider } from "react-redux";
 import { useFonts } from "expo-font";
-import { useRoute } from "./src/routes/router";
+
+import { store } from "./src/redux/store";
+import { Main } from "./src/components/Main";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -11,8 +12,6 @@ export default function App() {
     "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
     "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
   });
-
-  const routing = useRoute({});
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
@@ -27,8 +26,8 @@ export default function App() {
   }
 
   return (
-    <>
-      <NavigationContainer>{routing}</NavigationContainer>
-    </>
+    <Provider store={store}>
+      <Main />
+    </Provider>
   );
 }

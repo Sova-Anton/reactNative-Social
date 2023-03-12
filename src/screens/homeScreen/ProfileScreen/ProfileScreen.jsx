@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
+import { useDispatch } from "react-redux";
 //icons
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
@@ -13,8 +14,14 @@ import { Feather } from "@expo/vector-icons";
 import Post from "../../../components/Post";
 import { listPosts } from "../../../helpers/listPosts";
 import { styles } from "./ProfileScreenStyled";
+import { authSignOutUser } from "../../../redux/auth/authOperations";
 
 export default function ProfileScreen({ navigation }) {
+  const dispatch = useDispatch();
+
+  const signOut = () => {
+    dispatch(authSignOutUser());
+  };
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -40,7 +47,7 @@ export default function ProfileScreen({ navigation }) {
               name="log-out"
               size={24}
               color="#BDBDBD"
-              onPress={() => navigation.navigate("Login")}
+              onPress={signOut}
             />
           </TouchableOpacity>
 

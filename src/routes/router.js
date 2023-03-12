@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 //Navigation
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -14,8 +14,6 @@ import { Feather } from "@expo/vector-icons";
 
 const AuthStack = createStackNavigator();
 const HomeStack = createStackNavigator();
-
-// const MainTab = createBottomTabNavigator();
 
 export const useRoute = (isAuth) => {
   if (!isAuth) {

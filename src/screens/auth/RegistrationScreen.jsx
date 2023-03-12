@@ -11,8 +11,10 @@ import {
   Keyboard,
 } from "react-native";
 import { styles } from "./ScreensStyled";
-
 import { Ionicons } from "@expo/vector-icons";
+
+import { useDispatch } from "react-redux";
+import { authSignUpUser } from "../../redux/auth/authOperations";
 
 const initialState = {
   login: "",
@@ -24,6 +26,8 @@ export default function RegistrationScreen({ navigation }) {
   const [state, setState] = useState(initialState);
   const [focusedInput, setFocusedInput] = useState(null);
   const [passwordHide, setPasswordHide] = useState(true);
+
+  const dispatch = useDispatch();
 
   const handleFocus = (value) => {
     setFocusedInput(value);
@@ -38,7 +42,8 @@ export default function RegistrationScreen({ navigation }) {
   };
 
   const handleSubmit = () => {
-    console.log(state);
+    dispatch(authSignUpUser(state));
+
     setState(initialState);
   };
 

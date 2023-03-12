@@ -24,13 +24,6 @@ export default function CreatePostsScreen({ navigation }) {
   const [title, setTitle] = useState("");
   const [place, setPlace] = useState("");
 
-  // useEffect(() => {
-  //   (async () => {
-  //     await Camera.requestCameraPermissionsAsync();
-  //     await Location.requestForegroundPermissionsAsync();
-  //   })();
-  // }, []);
-
   const takePhoto = async () => {
     const { status } = await Camera.requestCameraPermissionsAsync();
     if (status !== "granted") {

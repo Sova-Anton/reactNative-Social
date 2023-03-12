@@ -12,6 +12,9 @@ import {
 } from "react-native";
 import { styles } from "./ScreensStyled";
 
+import { useDispatch } from "react-redux";
+import { authSignInUser } from "../../redux/auth/authOperations";
+
 const initialState = {
   email: "",
   password: "",
@@ -21,6 +24,8 @@ export default function LoginScreen({ navigation }) {
   const [state, setState] = useState(initialState);
   const [focusedInput, setFocusedInput] = useState(null);
   const [passwordHide, setPasswordHide] = useState(true);
+
+  const dispatch = useDispatch();
 
   const handleFocus = (value) => {
     setFocusedInput(value);
@@ -35,7 +40,7 @@ export default function LoginScreen({ navigation }) {
   };
 
   const handleSubmit = () => {
-    console.log(state);
+    dispatch(authSignInUser(state));
     setState(initialState);
   };
 
@@ -98,7 +103,7 @@ export default function LoginScreen({ navigation }) {
                 activeOpacity={0.7}
                 onPress={handleSubmit}
               >
-                <Text style={styles.btnTitle}>Login</Text>
+                <Text style={styles.btnTitle}>Sign in</Text>
               </TouchableOpacity>
 
               <View style={styles.navigationContainer}>

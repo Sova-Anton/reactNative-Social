@@ -12,9 +12,7 @@ export default function PostsScreen({ navigation, route }) {
       setPosts((prevState) => [route.params, ...prevState]);
     }
   }, [route.params]);
-  console.log("posts", posts);
 
-  console.log("route.params", route.params);
   return (
     <View style={styles.container}>
       <View style={styles.containerUserProfile}>
