@@ -12,7 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 
 import Post from "../../../components/Post";
-import { listPosts } from "../../../helpers/listPosts";
+
 import { styles } from "./ProfileScreenStyled";
 import { authSignOutUser } from "../../../redux/auth/authOperations";
 
@@ -55,7 +55,7 @@ export default function ProfileScreen({ navigation }) {
 
           <View>
             <FlatList
-              data={listPosts}
+              // data={}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
                 <Post item={item} navigation={navigation} />

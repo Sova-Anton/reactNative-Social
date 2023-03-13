@@ -90,13 +90,7 @@ export default function CreatePostsScreen({ navigation }) {
     if (!photo) {
       return;
     }
-
     uploadPostToServer();
-    // const data = await Location.getCurrentPositionAsync();
-    // const location = {
-    //   latitude: data.coords.latitude,
-    //   longitude: data.coords.longitude,
-    // };
     navigation.navigate("Posts");
     clearPost();
   };

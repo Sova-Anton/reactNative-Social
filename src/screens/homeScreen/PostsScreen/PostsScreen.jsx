@@ -3,9 +3,8 @@ import { Text, View, TouchableOpacity, Image, FlatList } from "react-native";
 import { styles } from "./PostsScreenStyled";
 import Post from "../../../components/Post";
 import db from "../../../firebase/config";
-import { listPosts } from "../../../helpers/listPosts";
 
-export default function PostsScreen({ navigation, route }) {
+export default function PostsScreen({ navigation }) {
   const [posts, setPosts] = useState([]);
 
   const getAllPosts = async () => {

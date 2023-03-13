@@ -3,21 +3,21 @@ import MapView, { Marker } from "react-native-maps";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function MapScreen({ route }) {
-  console.log("route.params", route.params);
-  const location = route.params;
+  const { latitude, longitude } = route.params.location;
 
   return (
     <View style={styles.container}>
       <MapView
         style={{ flex: 1 }}
         region={{
-          ...location,
-          latitudeDelta: 0.002,
-          longitudeDelta: 0.005,
+          latitude,
+          longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
         }}
         mapType="mutedStandard"
       >
-        <Marker coordinate={{ ...location }} />
+        <Marker coordinate={{ latitude, longitude }} />
       </MapView>
     </View>
   );

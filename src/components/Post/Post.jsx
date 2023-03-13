@@ -25,7 +25,9 @@ export default function Post({ item, navigation }) {
         <View>
           <TouchableOpacity
             style={styles.descriptionWrap}
-            onPress={() => navigation.navigate("Map", { ...item.location })}
+            onPress={() =>
+              navigation.navigate("Map", { location: item.location })
+            }
             activeOpacity={0.5}
           >
             <EvilIcons name="location" size={24} color="#BDBDBD" />
