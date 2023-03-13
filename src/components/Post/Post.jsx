@@ -12,7 +12,12 @@ export default function Post({ item, navigation }) {
         <View style={styles.descriptionWrap}>
           <TouchableOpacity
             activeOpacity={0.5}
-            onPress={() => navigation.navigate("Comments")}
+            onPress={() =>
+              navigation.navigate("Comments", {
+                postId: item.postId,
+                photo: item.photo,
+              })
+            }
           >
             <EvilIcons
               name="comment"

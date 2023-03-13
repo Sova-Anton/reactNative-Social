@@ -12,7 +12,7 @@ export default function PostsScreen({ navigation }) {
       .firestore()
       .collection("posts")
       .onSnapshot((data) =>
-        setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+        setPosts(data.docs.map((doc) => ({ ...doc.data(), postId: doc.id })))
       );
   };
 
