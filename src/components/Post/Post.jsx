@@ -2,6 +2,7 @@ import { Text, View, Image, TouchableOpacity } from "react-native";
 import { styles } from "./PostStyled";
 
 import { EvilIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 
 export default function Post({ item, navigation }) {
   return (
@@ -11,7 +12,7 @@ export default function Post({ item, navigation }) {
       <View style={styles.descriptionContainer}>
         <View style={styles.descriptionWrap}>
           <TouchableOpacity
-            activeOpacity={0.5}
+            activeOpacity={0.7}
             onPress={() =>
               navigation.navigate("Comments", {
                 postId: item.postId,
@@ -25,7 +26,11 @@ export default function Post({ item, navigation }) {
               color={item.comments > 0 ? "#FF6C00" : "#BDBDBD"}
             />
           </TouchableOpacity>
-          <Text style={styles.textComments}>{item.comments}</Text>
+          <Text style={styles.textComments}></Text>
+          <TouchableOpacity style={{ marginLeft: 24 }} activeOpacity={0.7}>
+            <Feather name="thumbs-up" size={20} color="#BDBDBD" />
+          </TouchableOpacity>
+          <Text style={styles.textComments}></Text>
         </View>
         <View>
           <TouchableOpacity

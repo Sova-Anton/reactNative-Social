@@ -14,14 +14,10 @@ export const styles = StyleSheet.create({
   },
   commentsContainer: {
     flex: 1,
-    // display: "flex",
-    // flexDirection: "row",
-    // marginTop: 24,
   },
   commentWrapper: {
     display: "flex",
     flexDirection: "row",
-    // marginHorizontal: 16,
     marginTop: 24,
   },
   avatarImage: {
@@ -30,7 +26,7 @@ export const styles = StyleSheet.create({
     height: 28,
     borderRadius: 50,
   },
-  textComtainer: {
+  textContainer: {
     paddingHorizontal: 16,
     paddingVertical: 16,
     backgroundColor: "rgba(0, 0, 0, 0.03)",
@@ -40,8 +36,20 @@ export const styles = StyleSheet.create({
     borderBottomLeftRadius: 6,
     borderBottomRightRadius: 6,
   },
+  textComment: {
+    fontFamily: "Roboto-Regular",
+    fontSize: 13,
+    lineHeight: 18,
+    color: "#212121",
+  },
+  textCommentData: {
+    marginTop: 8,
+    fontFamily: "Roboto-Regular",
+    fontSize: 10,
+    lineHeight: 12,
+    color: "#BDBDBD",
+  },
   commentInputWrapper: {
-    // flex: 1,
     justifyContent: "flex-end",
     marginBottom: 16,
   },

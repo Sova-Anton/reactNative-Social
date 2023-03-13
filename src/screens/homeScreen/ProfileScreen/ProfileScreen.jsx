@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -6,7 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 //icons
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
@@ -15,9 +16,30 @@ import Post from "../../../components/Post";
 
 import { styles } from "./ProfileScreenStyled";
 import { authSignOutUser } from "../../../redux/auth/authOperations";
+import db from "../../../firebase/config";
 
 export default function ProfileScreen({ navigation }) {
+  const [userPosts, setUserPosts] = useState([]);
+  console.log("userPosts", userPosts);
+
   const dispatch = useDispatch();
+  const { userId, login } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    getUserPosts();
+  }, []);
+
+  const getUserPosts = async () => {
+    await db
+      .firestore()
+      .collection("posts")
+      .where("userId", "==", userId)
+      .onSnapshot((data) =>
+        setUserPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+      );
+  };
+
+  console.log("userPosts", userPosts);
 
   const signOut = () => {
     dispatch(authSignOutUser());
@@ -51,11 +73,11 @@ export default function ProfileScreen({ navigation }) {
             />
           </TouchableOpacity>
 
-          <Text style={styles.title}>Mister Bin</Text>
+          <Text style={styles.title}>{login}</Text>
 
           <View>
             <FlatList
-              // data={}
+              data={userPosts}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
                 <Post item={item} navigation={navigation} />

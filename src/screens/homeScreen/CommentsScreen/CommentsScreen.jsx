@@ -26,15 +26,34 @@ export default function CommentsScreen({ route }) {
     getAllComments();
   }, []);
 
+  //Время создания коммента
+  const getData = () => {
+    const date = new Date();
+    const options = {
+      day: "numeric",
+      year: "numeric",
+      month: "long",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: false,
+    };
+    const dateFormatter = new Intl.DateTimeFormat("en-us", options);
+    const currentData = dateFormatter.format(date);
+
+    return currentData;
+  };
+
   const createMessage = async () => {
+    const currentTime = getData();
     await db
       .firestore()
       .collection("posts")
       .doc(postId)
       .collection("comments")
-      .add({ comment, login });
+      .add({ comment, login, currentTime });
     setComment("");
   };
+
   const getAllComments = async () => {
     db.firestore()
       .collection("posts")
@@ -61,8 +80,9 @@ export default function CommentsScreen({ route }) {
                   style={styles.avatarImage}
                   source={require("../../../../assets/images/avatar.jpg")}
                 />
-                <View style={styles.textComtainer}>
-                  <Text>{item.comment}</Text>
+                <View style={styles.textContainer}>
+                  <Text style={styles.textComment}>{item.comment}</Text>
+                  <Text style={styles.textCommentData}>{item.currentTime}</Text>
                 </View>
               </View>
             )}

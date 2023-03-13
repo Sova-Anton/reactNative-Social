@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
     fontFamily: "Roboto-Regular",
     fontSize: 16,
     lineHeight: 19,
-    color: "#BDBDBD",
+    color: "#212121",
   },
   textLocation: {
     fontFamily: "Roboto-Regular",
