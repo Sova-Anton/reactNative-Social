@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-
+import { useSelector } from "react-redux";
+import uuid from "react-native-uuid";
 import {
   Text,
   TouchableOpacity,
@@ -9,7 +10,7 @@ import {
   KeyboardAvoidingView,
   Keyboard,
 } from "react-native";
-import { Camera, CameraType } from "expo-camera";
+import { Camera } from "expo-camera";
 import * as Location from "expo-location";
 
 import { Feather } from "@expo/vector-icons";
@@ -18,11 +19,35 @@ import { Ionicons } from "@expo/vector-icons";
 import { styles } from "./CreatePostsScreenStyled";
 import { TextInput } from "react-native-gesture-handler";
 
+import db from "../../../firebase/config";
+
 export default function CreatePostsScreen({ navigation }) {
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState("");
   const [title, setTitle] = useState("");
   const [place, setPlace] = useState("");
+  const [location, setLocation] = useState(null);
+
+  const { userId, login } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+
+      let locationRef = await Location.getCurrentPositionAsync({});
+      setLocation(locationRef);
+    })();
+  }, []);
+
+  const clearPost = () => {
+    setPhoto("");
+    setTitle("");
+    setPlace("");
+  };
 
   const takePhoto = async () => {
     const { status } = await Camera.requestCameraPermissionsAsync();
@@ -35,22 +60,44 @@ export default function CreatePostsScreen({ navigation }) {
     setPhoto(uri);
   };
 
-  const clearPost = () => {
-    setPhoto("");
-    setTitle("");
-    setPlace("");
+  const uploadPhotoToServer = async () => {
+    const response = await fetch(photo);
+    const file = await response.blob();
+
+    const uniquePostId = uuid.v4();
+    await db.storage().ref(`postImage/${uniquePostId}`).put(file);
+
+    //Делает ссылку на фото
+    const processedPhoto = await db
+      .storage()
+      .ref("postImage")
+      .child(uniquePostId)
+      .getDownloadURL();
+
+    return processedPhoto;
+  };
+
+  const uploadPostToServer = async () => {
+    const photo = await uploadPhotoToServer();
+
+    const createPost = await db
+      .firestore()
+      .collection("posts")
+      .add({ userId, login, photo, title, place, location: location.coords });
   };
 
   const sendPost = async () => {
     if (!photo) {
       return;
     }
-    const data = await Location.getCurrentPositionAsync();
-    const location = {
-      latitude: data.coords.latitude,
-      longitude: data.coords.longitude,
-    };
-    navigation.navigate("Posts", { photo, title, place, location });
+
+    uploadPostToServer();
+    // const data = await Location.getCurrentPositionAsync();
+    // const location = {
+    //   latitude: data.coords.latitude,
+    //   longitude: data.coords.longitude,
+    // };
+    navigation.navigate("Posts");
     clearPost();
   };
 

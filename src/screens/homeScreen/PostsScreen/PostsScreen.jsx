@@ -2,16 +2,24 @@ import { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, Image, FlatList } from "react-native";
 import { styles } from "./PostsScreenStyled";
 import Post from "../../../components/Post";
+import db from "../../../firebase/config";
 import { listPosts } from "../../../helpers/listPosts";
 
 export default function PostsScreen({ navigation, route }) {
   const [posts, setPosts] = useState([]);
 
+  const getAllPosts = async () => {
+    await db
+      .firestore()
+      .collection("posts")
+      .onSnapshot((data) =>
+        setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+      );
+  };
+
   useEffect(() => {
-    if (route.params) {
-      setPosts((prevState) => [route.params, ...prevState]);
-    }
-  }, [route.params]);
+    getAllPosts();
+  }, []);
 
   return (
     <View style={styles.container}>
