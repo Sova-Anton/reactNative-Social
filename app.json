@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "myReactApp",
-    "slug": "myReactApp",
+    "name": "Awesome social",
+    "slug": "awesome-app",
     "version": "1.0.0",
     "orientation": "default",
     "icon": "./assets/icon.png",
