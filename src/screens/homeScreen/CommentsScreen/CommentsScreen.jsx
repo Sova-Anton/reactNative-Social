@@ -50,13 +50,14 @@ export default function CommentsScreen({ route }) {
     try {
       setIsLoading(true);
 
-      const currentTime = getData();
+      const currentTime = await getData();
       await db
         .firestore()
         .collection("posts")
         .doc(postId)
         .collection("comments")
         .add({ comment, login, currentTime });
+
       setComment("");
 
       setIsLoading(false);
