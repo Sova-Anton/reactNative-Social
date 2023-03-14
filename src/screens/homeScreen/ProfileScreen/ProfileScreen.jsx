@@ -19,8 +19,7 @@ import { authSignOutUser } from "../../../redux/auth/authOperations";
 import db from "../../../firebase/config";
 
 export default function ProfileScreen({ navigation }) {
-  const [userPosts, setUserPosts] = useState([]);
-  console.log("userPosts", userPosts);
+  const [userPosts, setUserPosts] = useState([]); 
 
   const dispatch = useDispatch();
   const { userId, login } = useSelector((state) => state.auth);
@@ -38,8 +37,6 @@ export default function ProfileScreen({ navigation }) {
         setUserPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
       );
   };
-
-  console.log("userPosts", userPosts);
 
   const signOut = () => {
     dispatch(authSignOutUser());
