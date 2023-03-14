@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
   },
   textComments: {
-    marginLeft: 4,
+    marginLeft: 6,
     fontFamily: "Roboto-Regular",
     fontSize: 16,
     lineHeight: 19,

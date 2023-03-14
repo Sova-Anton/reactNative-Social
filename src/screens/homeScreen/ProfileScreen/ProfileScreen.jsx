@@ -17,9 +17,11 @@ import Post from "../../../components/Post";
 import { styles } from "./ProfileScreenStyled";
 import { authSignOutUser } from "../../../redux/auth/authOperations";
 import db from "../../../firebase/config";
+import Loader from "../../../helpers/Loader";
 
 export default function ProfileScreen({ navigation }) {
-  const [userPosts, setUserPosts] = useState([]); 
+  const [userPosts, setUserPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
   const { userId, login } = useSelector((state) => state.auth);
@@ -29,18 +31,27 @@ export default function ProfileScreen({ navigation }) {
   }, []);
 
   const getUserPosts = async () => {
-    await db
-      .firestore()
-      .collection("posts")
-      .where("userId", "==", userId)
-      .onSnapshot((data) =>
-        setUserPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-      );
+    try {
+      setIsLoading(true);
+
+      await db
+        .firestore()
+        .collection("posts")
+        .where("userId", "==", userId)
+        .onSnapshot((data) =>
+          setUserPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+        );
+
+      setIsLoading(false);
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   const signOut = () => {
     dispatch(authSignOutUser());
   };
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -72,6 +83,7 @@ export default function ProfileScreen({ navigation }) {
 
           <Text style={styles.title}>{login}</Text>
 
+          {isLoading && <Loader />}
           <View>
             <FlatList
               data={userPosts}

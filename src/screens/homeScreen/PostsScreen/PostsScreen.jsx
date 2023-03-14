@@ -1,19 +1,30 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Text, View, TouchableOpacity, Image, FlatList } from "react-native";
 import { styles } from "./PostsScreenStyled";
 import Post from "../../../components/Post";
 import db from "../../../firebase/config";
+import Loader from "../../../helpers/Loader";
 
 export default function PostsScreen({ navigation }) {
   const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { email, login } = useSelector((state) => state.auth);
 
   const getAllPosts = async () => {
-    await db
-      .firestore()
-      .collection("posts")
-      .onSnapshot((data) =>
-        setPosts(data.docs.map((doc) => ({ ...doc.data(), postId: doc.id })))
-      );
+    try {
+      setIsLoading(true);
+      await db
+        .firestore()
+        .collection("posts")
+        .onSnapshot((data) =>
+          setPosts(data.docs.map((doc) => ({ ...doc.data(), postId: doc.id })))
+        );
+      setIsLoading(false);
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   useEffect(() => {
@@ -31,15 +42,15 @@ export default function PostsScreen({ navigation }) {
         </View>
 
         <View>
-          <Text style={styles.textName}>Mister Bin</Text>
-          <Text style={styles.textEmail}>BinPretty@gmail.com</Text>
+          <Text style={styles.textName}>{login}</Text>
+          <Text style={styles.textEmail}>{email}</Text>
         </View>
       </View>
-
+      {isLoading && <Loader />}
       <View>
         <FlatList
           data={posts}
-          keyExtractor={(item) => item.title}
+          keyExtractor={(item) => item.postId}
           renderItem={({ item }) => (
             <Post item={item} navigation={navigation} />
           )}

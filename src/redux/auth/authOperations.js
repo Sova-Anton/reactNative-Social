@@ -10,7 +10,9 @@ export const authSignUpUser =
       await db.auth().createUserWithEmailAndPassword(email, password);
 
       const user = await db.auth().currentUser;
+
       await user.updateProfile({
+        email: email,
         displayName: login,
       });
 
@@ -20,9 +22,9 @@ export const authSignUpUser =
         updateUserProfile({
           userId: uid,
           login: displayName,
+          email: email,
         })
       );
-    
     } catch (error) {
       console.log("error", error);
       console.log("error.message", error.message);
@@ -34,7 +36,6 @@ export const authSignInUser =
   async (dispatch, getState) => {
     try {
       const user = await db.auth().signInWithEmailAndPassword(email, password);
-      
     } catch (error) {
       console.log("error", error);
       console.log("error.message", error.message);
@@ -47,7 +48,6 @@ export const authSignOutUser = () => async (dispatch, getState) => {
     dispatch(authSignOut());
   } catch (error) {
     console.log("error", error);
-    console.log("error.message", error.message);
   }
 };
 
@@ -60,6 +60,7 @@ export const authStateChangeUser = () => async (dispatch, getState) => {
     const userUpdateProfile = {
       login: user.displayName,
       userId: user.uid,
+      email: user.email,
     };
 
     dispatch(updateUserProfile(userUpdateProfile));

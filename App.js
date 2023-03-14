@@ -2,9 +2,11 @@ import * as SplashScreen from "expo-splash-screen";
 import { useCallback } from "react";
 import { Provider } from "react-redux";
 import { useFonts } from "expo-font";
+import { ErrorBoundary } from "react-error-boundary";
 
 import { store } from "./src/redux/store";
 import { Main } from "./src/components/Main";
+import { ErrorFallback } from "./src/helpers/ErrorFallback";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -27,7 +29,9 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <Main />
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <Main />
+      </ErrorBoundary>
     </Provider>
   );
 }

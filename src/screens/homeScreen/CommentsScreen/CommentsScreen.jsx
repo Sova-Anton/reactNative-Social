@@ -11,13 +11,16 @@ import {
   KeyboardAvoidingView,
   Keyboard,
 } from "react-native";
+
 import { AntDesign } from "@expo/vector-icons";
 import { styles } from "./CommentsScreenStyled";
 import db from "../../../firebase/config";
+import Loader from "../../../helpers/Loader";
 
 export default function CommentsScreen({ route }) {
   const [comment, setComment] = useState("");
   const [allComments, setAllComments] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { postId, photo } = route.params;
   const { login } = useSelector((state) => state.auth);
@@ -44,24 +47,38 @@ export default function CommentsScreen({ route }) {
   };
 
   const createMessage = async () => {
-    const currentTime = getData();
-    await db
-      .firestore()
-      .collection("posts")
-      .doc(postId)
-      .collection("comments")
-      .add({ comment, login, currentTime });
-    setComment("");
+    try {
+      setIsLoading(true);
+
+      const currentTime = getData();
+      await db
+        .firestore()
+        .collection("posts")
+        .doc(postId)
+        .collection("comments")
+        .add({ comment, login, currentTime });
+      setComment("");
+
+      setIsLoading(false);
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   const getAllComments = async () => {
-    db.firestore()
-      .collection("posts")
-      .doc(postId)
-      .collection("comments")
-      .onSnapshot((data) =>
-        setAllComments(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-      );
+    try {
+      db.firestore()
+        .collection("posts")
+        .doc(postId)
+        .collection("comments")
+        .onSnapshot((data) =>
+          setAllComments(
+            data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+          )
+        );
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   return (
@@ -106,6 +123,8 @@ export default function CommentsScreen({ route }) {
             >
               <AntDesign name="arrowup" size={24} color="#FFFFFF" />
             </TouchableOpacity>
+
+            {isLoading && <Loader />}
           </View>
         </KeyboardAvoidingView>
       </View>

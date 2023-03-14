@@ -18,6 +18,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { styles } from "./CreatePostsScreenStyled";
 import { TextInput } from "react-native-gesture-handler";
+import Loader from "../../../helpers/Loader";
 
 import db from "../../../firebase/config";
 
@@ -27,19 +28,24 @@ export default function CreatePostsScreen({ navigation }) {
   const [title, setTitle] = useState("");
   const [place, setPlace] = useState("");
   const [location, setLocation] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { userId, login } = useSelector((state) => state.auth);
 
   useEffect(() => {
     (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
+      try {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          setErrorMsg("Permission to access location was denied");
+          return;
+        }
 
-      let locationRef = await Location.getCurrentPositionAsync({});
-      setLocation(locationRef);
+        let locationRef = await Location.getCurrentPositionAsync({});
+        setLocation(locationRef);
+      } catch (error) {
+        console.log("error", error);
+      }
     })();
   }, []);
 
@@ -50,49 +56,69 @@ export default function CreatePostsScreen({ navigation }) {
   };
 
   const takePhoto = async () => {
-    const { status } = await Camera.requestCameraPermissionsAsync();
-    if (status !== "granted") {
-      console.log("Permission to access camera was denied");
-      return;
-    }
-    const { uri } = await camera.takePictureAsync();
+    try {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Permission to access camera was denied");
+        return;
+      }
+      const { uri } = await camera.takePictureAsync();
 
-    setPhoto(uri);
+      setPhoto(uri);
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   const uploadPhotoToServer = async () => {
-    const response = await fetch(photo);
-    const file = await response.blob();
+    try {
+      const response = await fetch(photo);
+      const file = await response.blob();
 
-    const uniquePostId = uuid.v4();
-    await db.storage().ref(`postImage/${uniquePostId}`).put(file);
+      const uniquePostId = uuid.v4();
+      await db.storage().ref(`postImage/${uniquePostId}`).put(file);
 
-    //Делает ссылку на фото
-    const processedPhoto = await db
-      .storage()
-      .ref("postImage")
-      .child(uniquePostId)
-      .getDownloadURL();
+      //Делает ссылку на фото
+      const processedPhoto = await db
+        .storage()
+        .ref("postImage")
+        .child(uniquePostId)
+        .getDownloadURL();
 
-    return processedPhoto;
+      return processedPhoto;
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   const uploadPostToServer = async () => {
-    const photo = await uploadPhotoToServer();
+    try {
+      const photo = await uploadPhotoToServer();
 
-    const createPost = await db
-      .firestore()
-      .collection("posts")
-      .add({ userId, login, photo, title, place, location: location.coords });
+      const createPost = await db
+        .firestore()
+        .collection("posts")
+        .add({ userId, login, photo, title, place, location: location.coords });
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   const sendPost = async () => {
-    if (!photo) {
-      return;
+    try {
+      if (!photo) {
+        return;
+      }
+      setIsLoading(true);
+
+      uploadPostToServer();
+      navigation.navigate("Posts");
+      clearPost();
+
+      setIsLoading(false);
+    } catch (error) {
+      console.log("error", error);
     }
-    uploadPostToServer();
-    navigation.navigate("Posts");
-    clearPost();
   };
 
   return (
@@ -158,6 +184,8 @@ export default function CreatePostsScreen({ navigation }) {
                 onChangeText={(value) => setPlace(value)}
               />
             </View>
+
+            {isLoading && <Loader />}
 
             <TouchableOpacity
               onPress={sendPost}
