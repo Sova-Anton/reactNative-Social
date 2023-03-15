@@ -59,3 +59,5 @@ export default function PostsScreen({ navigation }) {
     </View>
   );
 }
+
+// allow read, write: if request.auth != null;
