@@ -46,11 +46,12 @@ export default function CommentsScreen({ route }) {
     return currentData;
   };
 
-  const createMessage = async () => {
+  const createComment = async () => {
     try {
       setIsLoading(true);
 
       const currentTime = await getData();
+
       await db
         .firestore()
         .collection("posts")
@@ -120,7 +121,7 @@ export default function CommentsScreen({ route }) {
             <TouchableOpacity
               style={styles.sendIcon}
               activeOpacity={0.7}
-              onPress={createMessage}
+              onPress={createComment}
             >
               <AntDesign name="arrowup" size={24} color="#FFFFFF" />
             </TouchableOpacity>

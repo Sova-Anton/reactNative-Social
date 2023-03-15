@@ -39,7 +39,9 @@ export default function ProfileScreen({ navigation }) {
         .collection("posts")
         .where("userId", "==", userId)
         .onSnapshot((data) =>
-          setUserPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+          setUserPosts(
+            data.docs.map((doc) => ({ ...doc.data(), postId: doc.id }))
+          )
         );
 
       setIsLoading(false);
@@ -87,7 +89,7 @@ export default function ProfileScreen({ navigation }) {
           <View>
             <FlatList
               data={userPosts}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item.postId}
               renderItem={({ item }) => (
                 <Post item={item} navigation={navigation} />
               )}
